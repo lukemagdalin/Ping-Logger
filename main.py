@@ -1,13 +1,14 @@
-from datetime import date
-from msilib.schema import Directory
-import os
 from socket import gethostbyname
-import sys
 from pythonping import ping
+from datetime import date
+import time
+import sys
+import os
 
-host = "cloudflare.com"
+host = "google.com"
 size = 40
 iterations = 200
+delayMs = 100 # ms
 
 directory = "results\\" + host # do not change, probably will break
 
@@ -17,11 +18,12 @@ def main():
     filename = generateFilename(host)
     # loop until stopped by user
     for i in range(1, iterations):
+        time.sleep(delayMs/1000)
         # ping the host
-        results = pingHost(host, size)
+        results = str(pingHost(host, size)) + " " + str(delayMs)
         # save the results to a file
         print(results)
-        appendToFile(str(results), filename)
+        appendToFile(results, filename)
 
 def generateFilename(host):
     '''Generate a filename from a hostname
