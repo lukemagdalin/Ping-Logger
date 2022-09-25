@@ -64,13 +64,20 @@ def checkIfDirExists(dir):
 def createDir(dir):
     '''Create a directory
     :param dir: Directory to create'''
-    try:
-        os.mkdir(dir)
-    except OSError:
-        print("Creation of the directory %s failed, exiting" % dir)
-        sys.exit()
-    else:
-        print("Successfully created the directory %s " % dir)
+    dirArgs = dir.split("\\")
+    index = 0
+    for arg in dirArgs:
+        if(checkIfDirExists(arg) != True):
+            newDir = ""
+            for i in range(0, index + 1):
+                newDir += dirArgs[i] + "\\"
+            try:
+                os.mkdir(newDir)
+            except OSError:
+                print("Failed creating directory %s, exiting" % newDir)
+                sys.exit()
+        index += 1
+    print("Successfully created the directory %s " % dir)
     
 def appendToFile(string, filename):
     '''Append a string to a file
